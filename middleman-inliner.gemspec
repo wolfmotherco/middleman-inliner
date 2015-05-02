@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'middleman-inliner'
-  s.version     = '1.0.0'
-  s.date        = '2014-06-22'
+  s.version     = '1.1.0'
+  s.date        = '2014-05-02'
   s.summary     = "Inline JS and CSS in just one line."
   s.description = "Inline JS and CSS in just one line."
   s.authors     = ["Kai Inui"]
