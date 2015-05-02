@@ -23,12 +23,15 @@ class Inliner < Middleman::Extension
       }.reduce(:+)
     end
 
-    def inline_js(*names)
-      names.map { |name|
-        name += ".js" unless name.include?(".js")
-        js = sprockets.find_asset(name).to_s
-        "<script type='text/javascript'>#{defined?(Uglifier) ? Uglifier.compile(js) : js}</script>"
-      }.reduce(:+)
+    def inline_js(*sources)
+      options = sources.extract_options!.stringify_keys
+      path_options = options.extract!('protocol', 'extname').symbolize_keys
+      sources.uniq.map { |source|
+        tag_options = {}.merge!(options)
+        js = sprockets.find_asset(source).to_s
+        js = defined?(Uglifier) ? Uglifier.compile(js) : js
+        content_tag(:script, js, tag_options)
+      }.join("\n").html_safe
     end
 
     alias :inline_javascript :inline_js
